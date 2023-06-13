@@ -4,11 +4,9 @@ const dotenv = require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 8080;
 
-const Task = require('./model/taskModel');
+const Task = require('./models/taskModel');
 
 const taskRoutes = require('./routes/taskRoute');
-
-
 
 // Starting the server AFTER the connection with the database
 
@@ -28,14 +26,7 @@ startServer();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-
 app.use(taskRoutes)
-
-// const logger = (req, res, next) => { 
-//     console.log("Middleware running")
-//     console.log(req.method)
-//     next()
-// }
 
 // Routes
 app.get('/', (req, res) => { 
@@ -43,5 +34,5 @@ app.get('/', (req, res) => {
     console.log("Hello from the server")
 })
 
-
+module.exports = {app}
 
