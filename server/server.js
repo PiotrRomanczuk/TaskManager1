@@ -21,6 +21,12 @@ const startServer = async () => {
 
 startServer();
 
+// Midlleware
+
+const logger = (req, res, next) => { 
+    console.log("Middlware running")
+    next()
+}
 
 // Routes
 
@@ -29,3 +35,11 @@ app.get('/', (req, res) => {
     console.log("Hello from the server")
 })
 
+//  Create a Task
+
+app.post('/api/tasks', logger, async (req, res) => {
+
+    console.log(req.body)
+    res.send("Task created")
+
+ })
