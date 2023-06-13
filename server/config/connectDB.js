@@ -19,11 +19,13 @@ const connectDB = async () => {
     }
 }
 
-
-
 module.exports = connectDB
 
 
+
+
+//              Template from the Mongodb docs
+// -------------------------------------------------------------------
 // const { MongoClient, ServerApiVersion } = require('mongodb');
 // const uri = "mongodb+srv://promanczuk:<password>@taskmanager.9ufphzl.mongodb.net/?retryWrites=true&w=majority";
 // // Create a MongoClient with a MongoClientOptions object to set the Stable API version
