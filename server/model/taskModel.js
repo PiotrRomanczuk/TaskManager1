@@ -11,10 +11,10 @@ const taskSchema = new mongoose.Schema({
         required: true,
         default: false
     },
-    description: {
-        type: String,
-        required: false
-    },
+    // description: {
+    //     type: String,
+    //     required: false
+    // },
 },
 {
     timestamp: true
