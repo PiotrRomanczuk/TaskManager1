@@ -2,10 +2,12 @@ const express = require('express');
 const connectDB = require('./config/connectDB');
 const dotenv = require('dotenv').config();
 const app = express();
-
 const PORT = process.env.PORT || 8080;
 
 const Task = require('./model/taskModel');
+
+const taskRoutes = require('./routes/taskRoute');
+
 
 
 // Starting the server AFTER the connection with the database
@@ -20,7 +22,6 @@ const startServer = async () => {
         console.log(err)
     }
 }
-
 startServer();
 
 // Midlleware
@@ -28,6 +29,7 @@ startServer();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+app.use(taskRoutes)
 
 // const logger = (req, res, next) => { 
 //     console.log("Middleware running")
@@ -36,27 +38,10 @@ app.use(express.urlencoded({ extended: false }));
 // }
 
 // Routes
-
 app.get('/', (req, res) => { 
     res.send("Home page") 
     console.log("Hello from the server")
 })
 
-//  Create a Task
 
-app.post('/api/tasks', async (req, res) => {
-    try {
-        const task = await Task.create(req.body)
-        
-        res
-            .status(200)
-            .json(task)
-     }
-    catch (err) {
-        res
-            .status(500)
-            .json(
-                { msg: err.message }
-            )
-    }
- })
+
