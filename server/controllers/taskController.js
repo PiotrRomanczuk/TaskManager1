@@ -1,4 +1,4 @@
-const Task = require('../model/taskModel');
+const Task = require('../models/taskModel');
 
 const createTask = async (req, res) => { 
     try {
@@ -20,4 +20,18 @@ const getAllTasks = async (req, res) => {
     }
 } 
 
-module.exports = {createTask, getAllTasks};
+const getTaskByID = async (req, res) => { 
+    try {
+        const task = await Task.findById(req.params.id)
+        res.status(200).json(task)
+    }
+    catch (err) {
+        res.status(500).json({ msg: err.message })
+    }
+}
+
+module.exports = {
+    createTask,
+    getAllTasks,
+    getTaskByID
+};
