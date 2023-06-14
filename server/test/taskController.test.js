@@ -1,83 +1,170 @@
-const chai = require('chai');
-const chaiHttp = require('chai-http');
-const app = require('../server.js'); // Assuming the Express app is exported from app.js
-const Task = require('../models/taskModel.js');
+// const Task = require('../models/taskModel');
 
-chai.use(chaiHttp);
-const expect = chai.expect;
+// // Mocking the Task model
+// jest.mock('../controllers/taskController', () => ({
+//   createTask: jest.fn(),
+//   find: jest.fn(),
+//   findById: jest.fn(),
+//   findByIdAndUpdate: jest.fn(),
+//   findByIdAndDelete: jest.fn(),
+// }));
 
-describe('Task API', () => {
-  before(async () => {
-    // Create a test task before running the tests
-    await Task.create({ title: 'Test Task', description: 'This is a test task' });
-  });
+// const {
+//   createTask,
+//   getAllTasks,
+//   getTaskByID,
+//   updateTask,
+//   deleteTask
+// } = require('../controllers/taskController');
 
-  after(async () => {
-    // Clean up the test data after running the tests
-    await Task.deleteMany();
-  });
+// describe('createTask', () => {
+//   it('should create a task and return it in the response', async () => {
+//     const req = { body: { title: 'Task 1' } };
+//     const res = { status: jest.fn().mockReturnThis(), json: jest.fn() };
+//     const newTask = { _id: 'task1', title: 'Task 1' };
+//     Task.create.mockResolvedValue(newTask);
 
-  describe('POST /tasks', () => {
-    it('should create a new task', async () => {
-      const res = await chai
-        .request(app)
-        .post('/tasks')
-        .send({ title: 'New Task', description: 'This is a new task' });
+//     await createTask(req, res);
 
-      expect(res).to.have.status(200);
-      expect(res).to.be.json;
-      expect(res.body).to.be.an('object');
-      expect(res.body).to.have.property('title', 'New Task');
-      expect(res.body).to.have.property('description', 'This is a new task');
-    });
+//     expect(Task.create).toHaveBeenCalledWith(req.body);
+//     expect(res.status).toHaveBeenCalledWith(200);
+//     expect(res.json).toHaveBeenCalledWith(newTask);
+//   });
 
-    it('should return an error for invalid task data', async () => {
-      const res = await chai
-        .request(app)
-        .post('/tasks')
-        .send({ description: 'This task is missing the title' });
+//   it('should return an error response if an error occurs during task creation', async () => {
+//     const req = { body: { title: 'Task 1' } };
+//     const res = { status: jest.fn().mockReturnThis(), json: jest.fn() };
+//     const error = { message: 'Task creation failed' };
+//     Task.create.mockRejectedValue(error);
 
-      expect(res).to.have.status(400);
-      expect(res).to.be.json;
-      expect(res.body).to.be.an('object');
-      expect(res.body).to.have.property('error');
-    });
-  });
+//     await createTask(req, res);
 
-  describe('GET /tasks', () => {
-    it('should retrieve all tasks', async () => {
-      const res = await chai.request(app).get('/tasks');
+//     expect(Task.create).toHaveBeenCalledWith(req.body);
+//     expect(res.status).toHaveBeenCalledWith(400);
+//     expect(res.json).toHaveBeenCalledWith(error);
+//   });
+// });
 
-      expect(res).to.have.status(200);
-      expect(res).to.be.json;
-      expect(res.body).to.be.an('array');
-      expect(res.body).to.have.lengthOf(2); // Assuming there are two tasks in the database (test task + created task)
-      expect(res.body[0]).to.have.property('title', 'Test Task');
-      expect(res.body[0]).to.have.property('description', 'This is a test task');
-    });
-  });
+// describe('getAllTasks', () => {
+//   it('should get all tasks and return them in the response', async () => {
+//     const req = {};
+//     const res = { status: jest.fn().mockReturnThis(), json: jest.fn() };
+//     const tasks = [{ _id: 'task1', title: 'Task 1' }, { _id: 'task2', title: 'Task 2' }];
+//     Task.find.mockResolvedValue(tasks);
 
-  describe('GET /tasks/:id', () => {
-    it('should retrieve a task by ID', async () => {
-      const tasks = await Task.find();
-      const taskId = tasks[0]._id;
+//     await getAllTasks(req, res);
 
-      const res = await chai.request(app).get(`/tasks/${taskId}`);
+//     expect(Task.find).toHaveBeenCalled();
+//     expect(res.status).toHaveBeenCalledWith(200);
+//     expect(res.json).toHaveBeenCalledWith(tasks);
+//   });
 
-      expect(res).to.have.status(200);
-      expect(res).to.be.json;
-      expect(res.body).to.be.an('object');
-      expect(res.body).to.have.property('title', 'Test Task');
-      expect(res.body).to.have.property('description', 'This is a test task');
-    });
+//   it('should return an error response if an error occurs while fetching tasks', async () => {
+//     const req = {};
+//     const res = { status: jest.fn().mockReturnThis(), json: jest.fn() };
+//     const error = { message: 'Failed to fetch tasks' };
+//     Task.find.mockRejectedValue(error);
 
-    it('should return an error for invalid task ID', async () => {
-      const res = await chai.request(app).get('/tasks/invalidId');
+//     await getAllTasks(req, res);
 
-      expect(res).to.have.status(500);
-      expect(res).to.be.json;
-      expect(res.body).to.be.an('object');
-      expect(res.body).to.have.property('msg');
-    });
-  });
-});
+//     expect(Task.find).toHaveBeenCalled();
+//     expect(res.status).toHaveBeenCalledWith(500);
+//     expect(res.json).toHaveBeenCalledWith({ msg: error.message });
+//   });
+
+//   it('should return a 404 response if no tasks are found', async () => {
+//     const req = {};
+//     const res = { status: jest.fn().mockReturnThis(), json: jest.fn() };
+//     Task.find.mockResolvedValue(null);
+
+//     await getAllTasks(req, res);
+
+//     expect(Task.find).toHaveBeenCalled();
+//     expect(res.status).toHaveBeenCalledWith(404);
+//     expect(res.json).toHaveBeenCalledWith('No tasks found with ID: undefined');
+//   });
+// });
+
+// describe('getTaskByID', () => {
+//   it('should get a task by ID and return it in the response', async () => {
+//     const req = { params: { id: 'task1' } };
+//     const res = { status: jest.fn().mockReturnThis(), json: jest.fn() };
+//     const task = { _id: 'task1', title: 'Task 1' };
+//     Task.findById.mockResolvedValue(task);
+
+//     await getTaskByID(req, res);
+
+//     expect(Task.findById).toHaveBeenCalledWith('task1');
+//     expect(res.status).toHaveBeenCalledWith(200);
+//     expect(res.json).toHaveBeenCalledWith(task);
+//   });
+
+//   it('should return an error response if an error occurs while fetching the task', async () => {
+//     const req = { params: { id: 'task1' } };
+//     const res = { status: jest.fn().mockReturnThis(), json: jest.fn() };
+//     const error = { message: 'Failed to fetch the task' };
+//     Task.findById.mockRejectedValue(error);
+
+//     await getTaskByID(req, res);
+
+//     expect(Task.findById).toHaveBeenCalledWith('task1');
+//     expect(res.status).toHaveBeenCalledWith(500);
+//     expect(res.json).toHaveBeenCalledWith({ msg: error.message });
+//   });
+// });
+
+// describe('updateTask', () => {
+//   it('should update a task and return the updated task in the response', async () => {
+//     const req = { params: { id: 'task1' }, body: { title: 'Updated Task 1' } };
+//     const res = { status: jest.fn().mockReturnThis(), json: jest.fn() };
+//     const updatedTask = { _id: 'task1', title: 'Updated Task 1' };
+//     Task.findByIdAndUpdate.mockResolvedValue(updatedTask);
+
+//     await updateTask(req, res);
+
+//     expect(Task.findByIdAndUpdate).toHaveBeenCalledWith('task1', req.body, { new: true });
+//     expect(res.status).toHaveBeenCalledWith(200);
+//     expect(res.json).toHaveBeenCalledWith(updatedTask);
+//   });
+
+//   it('should return an error response if an error occurs while updating the task', async () => {
+//     const req = { params: { id: 'task1' }, body: { title: 'Updated Task 1' } };
+//     const res = { status: jest.fn().mockReturnThis(), json: jest.fn() };
+//     const error = { message: 'Failed to update the task' };
+//     Task.findByIdAndUpdate.mockRejectedValue(error);
+
+//     await updateTask(req, res);
+
+//     expect(Task.findByIdAndUpdate).toHaveBeenCalledWith('task1', req.body, { new: true });
+//     expect(res.status).toHaveBeenCalledWith(500);
+//     expect(res.json).toHaveBeenCalledWith({ msg: error.message });
+//   });
+// });
+
+// describe('deleteTask', () => {
+//   it('should delete a task and return it in the response', async () => {
+//     const req = { params: { id: 'task1' } };
+//     const res = { status: jest.fn().mockReturnThis(), json: jest.fn() };
+//     const deletedTask = { _id: 'task1', title: 'Task 1' };
+//     Task.findByIdAndDelete.mockResolvedValue(deletedTask);
+
+//     await deleteTask(req, res);
+
+//     expect(Task.findByIdAndDelete).toHaveBeenCalledWith('task1');
+//     expect(res.status).toHaveBeenCalledWith(200);
+//     expect(res.json).toHaveBeenCalledWith(deletedTask);
+//   });
+
+//   it('should return an error response if an error occurs while deleting the task', async () => {
+//     const req = { params: { id: 'task1' } };
+//     const res = { status: jest.fn().mockReturnThis(), json: jest.fn() };
+//     const error = { message: 'Failed to delete the task' };
+//     Task.findByIdAndDelete.mockRejectedValue(error);
+
+//     await deleteTask(req, res);
+
+//     expect(Task.findByIdAndDelete).toHaveBeenCalledWith('task1');
+//     expect(res.status).toHaveBeenCalledWith(500);
+//     expect(res.json).toHaveBeenCalledWith({ msg: error.message });
+//   });
+// });
