@@ -13,10 +13,10 @@ const createTask = async (req, res) => {
 const getAllTasks = async (req, res) => {
     try {
         const task = await Task.find()
-        res.status(200).json(tasks)
+        res.status(200).json(task)
 
         if (!task) { 
-            res.status(404).json(`No tasks found with ID: ${id}`)
+            res.status(404).json(`No tasks found`)
         }
     }
     catch (err) {
@@ -30,7 +30,11 @@ const getTaskByID = async (req, res) => {
         const { id } = req.params;
         const task = await Task.findById(id)
    
-        res.status(200).json(task)
+        if (!task) {
+            res.status(404).json(`No task found with ID: ${id}`)
+        }
+
+        res.status(200).json(`Task found with ID: ${id}`)
     }
     catch (err) {
         res.status(500).json({ msg: err.message })
@@ -41,7 +45,12 @@ const updateTask = async (req, res) => {
     try {
         const { id } = req.params;
         const task = await Task.findByIdAndUpdate(id, req.body, { new: true })
-        res.status(200).json(task)
+
+        if (!task) {
+            res.status(404).json(`No task found with ID: ${id}`)
+        }
+
+        res.status(200).json(`Task updated successfully with ID: ${id}`)
     }
     catch (err) {
         res.status(500).json({ msg: err.message })
@@ -52,7 +61,11 @@ const deleteTask = async (req, res) => {
     try {
             const { id } = req.params;
             const task = await Task.findByIdAndDelete(id)
-            res.status(200).json(task)
+        
+        if (!task) {
+            res.status(404).json(`No task found with ID: ${id}`)
+        }
+            res.status(200).json(`Task deleted successfully with ID: ${id}`)
         }
         catch (err) {
             res.status(500).json({ msg: err.message })

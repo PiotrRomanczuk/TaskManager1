@@ -4,7 +4,9 @@ const router = express.Router();
 const {
     createTask,
     getAllTasks,
-    getTaskByID
+    getTaskByID,
+    updateTask,
+    deleteTask
 } = require('../controllers/taskController');
 
 
@@ -17,5 +19,11 @@ router.get('/api/tasks', getAllTasks)
 
 // Get/Read one Tasks
 router.get('/api/tasks:id', getTaskByID)
+
+// Update a Task
+router.put('/api/tasks:id', updateTask)
+
+// Delete a Task
+router.delete('/api/tasks:id', deleteTask)
 
 module.exports = router;

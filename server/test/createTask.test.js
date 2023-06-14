@@ -1,6 +1,7 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const app = require('../server'); // Replace with the path to your app file
+
+const app = require('../server');
 const Task = require('../models/taskModel');
 const dotenv = require('dotenv').config();
 
@@ -22,7 +23,7 @@ describe('createTask', () => {
 
     chai
       .request(app)
-      .post('/your-create-task-endpoint') // Replace with the actual endpoint for creating tasks
+      .post('/api/tasks') // Replace with the actual endpoint for creating tasks
       .send(newTask)
       .end((err, res) => {
         expect(res).to.have.status(200);
@@ -49,7 +50,7 @@ describe('createTask', () => {
 
     chai
       .request(app)
-      .post('/your-create-task-endpoint') // Replace with the actual endpoint for creating tasks
+      .post('/api/tasks') // Replace with the actual endpoint for creating tasks
       .send(invalidTask)
       .end((err, res) => {
         expect(res).to.have.status(400);
