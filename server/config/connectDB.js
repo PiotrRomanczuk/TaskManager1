@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 const connectDB = async () => { 
     try {
         const conn = await mongoose.connect(process.env.MONGO_URI,
-            // {
+            // { // template proposed by CoPilot API
+            //  
             // useNewUrlParser: true,
             // useUnifiedTopology: true,
             // useCreateIndex: true,
