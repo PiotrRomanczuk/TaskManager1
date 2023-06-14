@@ -6,7 +6,7 @@ const PORT = process.env.PORT || 8080;
 
 const Task = require('./models/taskModel');
 
-const taskRoutes = require('./routes/taskRoute');
+const taskRoute = require('./routes/taskRoute');
 
 // Starting the server AFTER the connection with the database
 
@@ -26,7 +26,7 @@ startServer();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(taskRoutes)
+app.use("/api/tasks", taskRoute)
 
 // Routes
 app.get('/', (req, res) => { 

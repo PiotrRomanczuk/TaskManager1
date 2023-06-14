@@ -10,20 +10,29 @@ const {
 } = require('../controllers/taskController');
 
 
+router.route('/')
+    .get(getAllTasks)
+    .post(createTask);
 
-//  Create a Task
-router.post('/api/tasks', createTask);
+router.route('/:id')
+    .get(getTaskByID)
+    .put(updateTask)
+    .delete(deleteTask);
+
+
+// //  Create a Task
+// router.post('/', createTask);
  
-// Get/Read All Tasks
-router.get('/api/tasks', getAllTasks)
+// // Get/Read All Tasks
+// router.get('/', getAllTasks)
 
-// Get/Read one Tasks
-router.get('/api/tasks:id', getTaskByID)
+// // Get/Read one Tasks
+// router.get('/:id', getTaskByID)
 
-// Update a Task
-router.put('/api/tasks:id', updateTask)
+// // Update a Task
+// router.put('/:id', updateTask)
 
-// Delete a Task
-router.delete('/api/tasks:id', deleteTask)
+// // Delete a Task
+// router.delete('/:id', deleteTask)
 
 module.exports = router;
