@@ -60,8 +60,6 @@ const deleteTask = async (req, res) => {
  }
 
 
-
-
 module.exports = {
     createTask,
     getAllTasks,
