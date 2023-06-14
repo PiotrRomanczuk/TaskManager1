@@ -12,8 +12,12 @@ const createTask = async (req, res) => {
 
 const getAllTasks = async (req, res) => {
     try {
-        const tasks = await Task.find()
+        const task = await Task.find()
         res.status(200).json(tasks)
+
+        if (!task) { 
+            res.status(404).json(`No tasks found with ID: ${id}`)
+        }
     }
     catch (err) {
         res.status(500).json({ msg: err.message })
@@ -22,7 +26,10 @@ const getAllTasks = async (req, res) => {
 
 const getTaskByID = async (req, res) => { 
     try {
-        const task = await Task.findById(req.params.id)
+        
+        const { id } = req.params;
+        const task = await Task.findById(id)
+   
         res.status(200).json(task)
     }
     catch (err) {
@@ -30,8 +37,35 @@ const getTaskByID = async (req, res) => {
     }
 }
 
+const updateTask = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const task = await Task.findByIdAndUpdate(id, req.body, { new: true })
+        res.status(200).json(task)
+    }
+    catch (err) {
+        res.status(500).json({ msg: err.message })
+    }
+ }
+
+const deleteTask = async (req, res) => {
+    try {
+            const { id } = req.params;
+            const task = await Task.findByIdAndDelete(id)
+            res.status(200).json(task)
+        }
+        catch (err) {
+            res.status(500).json({ msg: err.message })
+        }
+ }
+
+
+
+
 module.exports = {
     createTask,
     getAllTasks,
-    getTaskByID
+    getTaskByID,
+    updateTask,
+    deleteTask
 };
