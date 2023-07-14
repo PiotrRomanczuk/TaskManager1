@@ -1,29 +1,27 @@
 const mongoose = require('mongoose');
 
-const connectDB = async () => { 
-    try {
-        const conn = await mongoose.connect(process.env.MONGO_URI,
-            // { // template proposed by CoPilot API
-            //  
-            // useNewUrlParser: true,
-            // useUnifiedTopology: true,
-            // useCreateIndex: true,
-            // useFindAndModify: false,
-            // useCreateIndex: true,
-            // }
-        );
-        console.log(`MongoDB Connected: ${conn.connection.host}`);
-    } catch (err) {
-        console.error(err.message);
-        // Exit process with failure
-        process.exit(1);
-    }
-}
+const connectDB = async () => {
+	try {
+		const conn = await mongoose.connect(
+			process.env.MONGO_URI
+			// { // template proposed by CoPilot API
+			//
+			// useNewUrlParser: true,
+			// useUnifiedTopology: true,
+			// useCreateIndex: true,
+			// useFindAndModify: false,
+			// useCreateIndex: true,
+			// }
+		);
+		console.log(`MongoDB Connected: ${conn.connection.host}`);
+	} catch (err) {
+		console.error(err.message);
+		// Exit process with failure
+		process.exit(1);
+	}
+};
 
-module.exports = connectDB
-
-
-
+module.exports = connectDB;
 
 //              Template from the Mongodb docs
 // -------------------------------------------------------------------

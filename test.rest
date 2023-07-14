@@ -1,0 +1,12 @@
+
+# Get all Tasks
+GET http://localhost:8080/api/tasks
+###
+
+
+# Get one task
+GET http://localhost:8080/api/tasks/6489badd1a1bb4f9ad4e83f8
+###
+
+
+POST http://localhost:8080/api/tasks/

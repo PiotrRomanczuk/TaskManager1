@@ -1,25 +1,25 @@
 {
-  "name": "taskmanager",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "dev": "nodemon ./server/server.js",
-    "test": "chai"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "dotenv": "^16.1.4",
-    "express": "^4.18.2",
-    "jest": "^29.5.0",
-    "mongoose": "^7.2.4"
-  },
-  "devDependencies": {
-    "chai": "^4.3.7",
-    "chai-http": "^4.4.0",
-    "mocha": "^10.2.0",
-    "nodemon": "^2.0.22"
-  }
+	"name": "taskmanager",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"dev": "nodemon ./server/server.js",
+		"chai": "chai"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"dotenv": "^16.1.4",
+		"express": "^4.18.2",
+		"jest": "^29.5.0",
+		"mongoose": "^7.2.4"
+	},
+	"devDependencies": {
+		"chai": "^4.3.7",
+		"chai-http": "^4.4.0",
+		"mocha": "^10.2.0",
+		"nodemon": "^2.0.22"
+	}
 }
